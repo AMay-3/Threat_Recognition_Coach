@@ -1,64 +1,85 @@
 # Threat Recognition Coach
 
-An in-progress Python command-line learning project by **Aaron May** that uses a fictional phishing scenario to practice input validation, branching, loops, and collections.
+An in-progress Python command-line learning project by **Aaron May**. It uses a fictional phishing scenario to practice input validation, branching, loops, functions, dictionaries, and lists.
 
-The scenario asks the user to respond to a message threatening account suspension. Choosing to contact IT through a known, trusted method produces an explanation of why independent verification is safer. Choosing to open the supplied link produces an explanation of the risk.
+The scenario presents a message threatening account suspension. The user chooses whether to open its link or contact IT through a known, trusted method. The program explains the risk or safer response and displays a training summary.
 
 ## Current version
 
-This repository preserves the original `Python_Day_05.py` learning snapshot. It includes:
+The current learning snapshot is `Python_Day_14.py`. The original `Python_Day_05.py` is retained as an earlier snapshot.
 
-- A two-option training menu with feedback for either accepted choice.
-- A `while` loop that rejects invalid menu entries and asks again.
-- A counter that reports how many invalid entries occurred before an accepted choice.
-- A list/set warm-up that adds a username and compares total entries with unique usernames. This separate exercise runs before the training scenario and remains in the file as part of the learning snapshot.
+Day 14 includes:
 
-An accepted choice means the menu entry is valid; it does **not** mean the selected action is safe. The invalid-attempt count measures menu-entry errors, not security knowledge.
+- An email prompt that retries until the entry exactly matches the sample training roster.
+- A two-option menu with feedback for both accepted choices.
+- A retry loop and counter for invalid menu entries.
+- A summary dictionary containing the email, accepted choice, outcome, invalid-attempt count, scenario ID, and completion status.
+- A list that stores one completed summary during the run.
+- Reusable functions and a guarded starting point.
+
+The earlier username/list-set warm-up is not part of the Day 14 workflow.
+
+An accepted menu choice means the entry is valid; it does **not** mean the chosen action is safe. Both outcomes receive a completion status of `Complete`. The invalid-attempt counter measures menu-entry errors, not security knowledge or rejected emails.
 
 ## Run locally
 
 Install Python 3, open a terminal in the project folder, and run:
 
 ```bash
-python Python_Day_05.py
+python Python_Day_14.py
 ```
 
-If your installation uses a different command, use `python3 Python_Day_05.py` or, on Windows, `py Python_Day_05.py`.
+Depending on your installation, use `python3 Python_Day_14.py` or, on Windows, `py Python_Day_14.py`.
 
 No external packages are required. All interaction happens in the terminal. The program does not send email, open links, or connect to an external service.
 
 ## Example walkthrough
 
-Enter the following values when prompted:
+Enter these values when prompted:
 
 | Prompt | Input |
-|---|---|
-| Username to add | `alex` |
+| --- | --- |
 | Email address | `sam.tcr@tcr.com` |
 | First menu entry | `9` |
-| Second menu entry | `7` |
-| Third menu entry | `2` |
+| Retry menu entry | `2` |
 
-The warm-up reports four total entries and three unique usernames. The displayed order of the set may vary. The menu rejects `9` and `7`, accepts `2`, explains the safer response, and ends with:
+The program rejects `9`, accepts `2`, explains the safer response, and displays:
 
 ```text
-Accepted choice: 2
-Invalid attempts: 2
+Training session summary:
+Email: sam.tcr@tcr.com
+Choice: 2
+Outcome: Safe Response
+Invalid attempts: 1
+Scenario ID: account_expiration_001
+Completion Status: Complete
+Completed Records: 1
 ```
 
-Entering `1` or `2` on the first menu attempt skips the retry loop and reports `Invalid attempts: 0`.
+Choosing `1` on the first menu attempt produces `Risky Response`, `Invalid attempts: 0`, and `Complete`. An unlisted email triggers another email prompt before the scenario begins.
+
+## Program organization
+
+| Function | Role |
+| --- | --- |
+| `get_outcome(selected_choice)` | Returns the matching safe or risky outcome label. |
+| `show_summary(record)` | Prints the fields from a supplied summary dictionary. |
+| `main()` | Coordinates one training run and returns its records list. |
+
+The `if __name__ == "__main__":` guard starts training when the file runs directly. It captures the list returned by `main()` in `completed_records` and prints its length. Importing the file does not start the training prompts.
 
 ## Current limitations
 
-- The scenario appears only for an exact match in the hard-coded sample email list. An unrecognized email skips the scenario text, but the menu still appears.
-- Matching a typed email to that list does not authenticate anyone.
-- This is one fictional training scenario, without saved results, scoring, or a web interface.
-- Some earlier practice variables are unused. The scenario text also retains spacing and spelling issues from the original learning file.
+- This version contains one fictional scenario and two response choices.
+- Email matching uses a hard-coded sample roster and is exact, including capitalization and whitespace. It does not authenticate the user.
+- Records exist only in memory. Each fresh run starts with an empty list; results are not saved to a file or database.
+- There is no security-knowledge score, web interface, or real phishing detection.
+- Some earlier practice variables remain unused.
 
-Possible next steps are to handle unrecognized emails explicitly, clean up the displayed text, separate the collections warm-up, and add more scenarios. These improvements are not implemented in this version.
+Possible future improvements include additional scenarios, saved results, and scoring. These features are not implemented in this version.
 
 ## Learning and assistance
 
-The project demonstrates `input()`, `print()`, list `append()`, set conversion, `len()`, membership checks, `if`/`elif`/`else`, a `while` loop, and a counter.
+The project practices input/output, membership checks, conditionals, validation loops, counters, dictionary keys, list `append()`, indexing, `len()`, function parameters and arguments, returned values, local scope, and a guarded program entry point.
 
-I developed this project with VS Code suggestions and ChatGPT explanations and debugging guidance. I am using it to practice Python fundamentals and improve the program step by step.
+I developed the code using VS Code suggestions and ChatGPT explanations, code-review and debugging guidance, and README editing assistance. I am using the project to build my understanding of Python fundamentals and improve the program step by step.
